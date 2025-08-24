@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import static org.firstinspires.ftc.teamcode.utils.RobotConstants.*;
+
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
@@ -43,10 +46,7 @@ public class teleop extends CommandOpMode {
     private Arm arm;
 
     double intakeRotatePerDegree = 0.000555555556;
-
-    double intakeRotatePerDegreeUp = 0.0037037037037037037037037037037;
-
-
+    boolean SPECIMENMODE = false;
 
 
 
@@ -105,12 +105,6 @@ public class teleop extends CommandOpMode {
         clawUp.register();
 
 
-
-
-
-
-
-
       TeleopDriveCommand driveCommand = new TeleopDriveCommand(
                 drive,
                 () -> -driverGamepad.getRightX()*.80,
@@ -124,100 +118,102 @@ public class teleop extends CommandOpMode {
         drive.setDefaultCommand(driveCommand);
 
 
-        new GamepadButton(operatorGamepad, GamepadKeys.Button.RIGHT_BUMPER)
-                .whileActiveOnce(
-                        new SequentialCommandGroup(
-                                new InstantCommand(()-> clawPivot.setPosition(0.24)),
-                                new InstantCommand(()-> dClaw.setPositionD(0.5-(0*intakeRotatePerDegree))),
-                                new InstantCommand(()-> dClaw.setPositionI(0.5+(0*intakeRotatePerDegree)))
-                        )
-                );
+        if (bot.opertator.gamepad.right_stick_button){
+            SPECIMENMODE = true;
+        } if (bot.opertator.gamepad.left_stick_button){
+            SPECIMENMODE = false;
+        }
 
         new GamepadButton(operatorGamepad, GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .whileActiveOnce(
                         new SequentialCommandGroup(
-                                new InstantCommand(()-> arm.setPosition(0.4)),
-                                new InstantCommand(()-> diffClawUp.setPositionD(0.9)),
-                                new InstantCommand(()-> diffClawUp.setPositionI(0.9))
+                                new InstantCommand(()-> arm.setPosition(armSaved)),
+                                new InstantCommand(()-> diffClawUp.setPositionD(savedForPickUp)),
+                                new InstantCommand(()-> diffClawUp.setPositionI(savedForPickUp))
 
                         )
                 );
         new GamepadButton(operatorGamepad, GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whileActiveOnce(
                         new SequentialCommandGroup(
-                                new InstantCommand(()-> clawPivot.setPosition(0.9)),
-                                new InstantCommand(()-> slides.setPosition(0)),
-                                new InstantCommand(()-> dClaw.setPositionD(0.56)),
-                                new InstantCommand(()-> dClaw.setPositionI(0.56))
+                                new InstantCommand(()-> clawPivot.setPosition(savedPivot)),
+                                new InstantCommand(()-> slides.setPosition(saved)),
+                                new InstantCommand(()-> dClaw.setPositionD(savedForSpecimen)),
+                                new InstantCommand(()-> dClaw.setPositionI(savedForSpecimen))
 
                         )
                 );
 
+
+        //CYCLES
+
+        if (!SPECIMENMODE){
+
+        new GamepadButton(operatorGamepad, GamepadKeys.Button.RIGHT_BUMPER)
+                .whileActiveOnce(
+                        new SequentialCommandGroup(
+                                new InstantCommand(()-> clawPivot.setPosition(grabPivot)),
+                                new InstantCommand(()-> dClaw.setPositionD(grab-(0*intakeRotatePerDegree))),
+                                new InstantCommand(()-> dClaw.setPositionI(grab+(0*intakeRotatePerDegree)))
+                        )
+                );
+
+
+
         new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_UP)
                 .whileActiveOnce(
                         new SequentialCommandGroup(
-                                new InstantCommand(()-> slides.setPosition(0.25)),
-                                new InstantCommand(()-> clawPivot.setPosition(0.5)),
-                                new InstantCommand(()-> claw.setPosition(1))
+                                new InstantCommand(()-> slides.setPosition(extended)),
+                                new InstantCommand(()-> clawPivot.setPosition(cloudPivot))
                         )
                 );
 
         new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_DOWN)
                 .whileActiveOnce(
                         new SequentialCommandGroup(
-                                new InstantCommand(()-> slides.setPosition(0)),
-                                new InstantCommand(()-> clawPivot.setPosition(0.9))
+                                new InstantCommand(()-> slides.setPosition(saved)),
+                                new InstantCommand(()-> clawPivot.setPosition(saved))
+                        )
+                );
+
+    }
+
+        // SPECIMEN
+
+        if (SPECIMENMODE){
+
+            new GamepadButton(operatorGamepad, GamepadKeys.Button.Y)
+                .whileActiveOnce(
+                        new SequentialCommandGroup(
+                                new InstantCommand(()-> clawUp.setPosition(outakeClose)),
+                                new WaitCommand(50),
+                                new InstantCommand(()-> arm.setPosition(armScore)),
+                                new WaitCommand(500),
+                                new InstantCommand(()-> diffClawUp.setPositionD(placeDiff-(90*outTakeRotatePerDegree))),
+                                new InstantCommand(()-> diffClawUp.setPositionI(placeDiff+(90*outTakeRotatePerDegree)))
+                )
+        );
+        new GamepadButton(operatorGamepad, GamepadKeys.Button.Y)
+                .whenReleased(
+                        new SequentialCommandGroup(
+                                new InstantCommand(()-> arm.setPosition(armAfterScore)),
+                                new WaitCommand(500),
+                                new InstantCommand(()-> clawUp.setPosition(outakeOpen))
                         )
                 );
 
         new GamepadButton(operatorGamepad, GamepadKeys.Button.B)
                 .whileActiveOnce(
                         new SequentialCommandGroup(
-                                new InstantCommand(()-> arm.setPosition(0.12)),
-                                new InstantCommand(()-> clawUp.setSetpoint(0.3)),
+                                new InstantCommand(()-> arm.setPosition(armGrabWall)),
+                                new InstantCommand(()-> clawUp.setSetpoint(outakeOpen)),
                                 new WaitCommand(50),
-                                new InstantCommand(()-> diffClawUp.setPositionD(0.3)),
-                                new InstantCommand(()-> diffClawUp.setPositionI(0.3))
+                                new InstantCommand(()-> diffClawUp.setPositionD(grabWall-(0*outTakeRotatePerDegree))),
+                                new InstantCommand(()-> diffClawUp.setPositionI(grabWall+(0*outTakeRotatePerDegree)))
                         )
                 );
 
-
-        new GamepadButton(operatorGamepad, GamepadKeys.Button.Y)
-                .whileActiveOnce(
-                        new SequentialCommandGroup(
-                            new InstantCommand(()-> clawUp.setPosition(0)),
-                            new WaitCommand(50),
-                            new InstantCommand(()-> arm.setPosition(0.8)),
-                            new WaitCommand(500),
-                                new InstantCommand(()-> diffClawUp.setPositionD(0.6-(85*intakeRotatePerDegreeUp))),
-                            new InstantCommand(()-> diffClawUp.setPositionI(0.6+(85*intakeRotatePerDegreeUp)))
-                )
-        );
-        new GamepadButton(operatorGamepad, GamepadKeys.Button.Y)
-                .whenReleased(
-                        new SequentialCommandGroup(
-                                new InstantCommand(()-> arm.setPosition(1)),
-                                new InstantCommand(()-> diffClawUp.setPositionD(0.6-(85*intakeRotatePerDegreeUp))),
-                                new InstantCommand(()-> diffClawUp.setPositionI(0.6+(85*intakeRotatePerDegreeUp))),
-                                new WaitCommand(500),
-                                new InstantCommand(()-> clawUp.setPosition(0.3))
-                        )
-                );
-
-
-
-       /*new GamepadButton(driverGamepad, GamepadKeys.Button.A)
-               .whenPressed(
-                       new ParallelCommandGroup(
-                        new InstantCommand(()-> drive.teleopDrive(vision.getTurnPower(),1)),
-                        new InstantCommand(()-> slides.setDistance()),
-                        new InstantCommand(()-> rClaw.setTurnServo()),
-                        new InstantCommand(()->claw.setSetpoint(0.94))
-            ));
-       */
-
-
-
+    }
 
 
 
