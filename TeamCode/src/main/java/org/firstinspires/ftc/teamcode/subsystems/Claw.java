@@ -33,9 +33,7 @@ public class Claw implements Subsystem {
 
         boolean botonPresionadoAhora = bot.opertator.gamepad.a;
 
-        // Verificar si el botón acaba de ser presionado
         if (botonPresionadoAhora && !botonPresionadoAnteriormente) {
-            // Cambiar el estado de la garra
             if (garraAbierta) {
                 clawServo.setPosition(0);
                 garraAbierta = false;
@@ -45,15 +43,7 @@ public class Claw implements Subsystem {
             }
         }
 
-        // Actualizar el estado del botón para el siguiente ciclo
         botonPresionadoAnteriormente = botonPresionadoAhora;
-
-
-
-
-
-
-
 
 
     }

@@ -8,16 +8,13 @@ public class RobotConstants {
 
     //OutTake Diff
     public static double outTakeRotatePerDegree = 0.0037037037037037037037037037037;
-    public static double placeDiff = 0.6;
+    public static double placeDiff = 0.45;
     public static double grabWall = 0.3;
     public static double savedForPickUp = 0.9;
 
     //Intake Diff
     public static double savedForSpecimen = 0.56;
     public static double grab = 0.5;
-
-
-
 
 
     //claw Up

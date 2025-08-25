@@ -118,11 +118,7 @@ public class teleop extends CommandOpMode {
         drive.setDefaultCommand(driveCommand);
 
 
-        if (bot.opertator.gamepad.right_stick_button){
-            SPECIMENMODE = true;
-        } if (bot.opertator.gamepad.left_stick_button){
-            SPECIMENMODE = false;
-        }
+
 
         new GamepadButton(operatorGamepad, GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .whileActiveOnce(
@@ -147,7 +143,6 @@ public class teleop extends CommandOpMode {
 
         //CYCLES
 
-        if (!SPECIMENMODE){
 
         new GamepadButton(operatorGamepad, GamepadKeys.Button.RIGHT_BUMPER)
                 .whileActiveOnce(
@@ -172,15 +167,14 @@ public class teleop extends CommandOpMode {
                 .whileActiveOnce(
                         new SequentialCommandGroup(
                                 new InstantCommand(()-> slides.setPosition(saved)),
-                                new InstantCommand(()-> clawPivot.setPosition(saved))
+                                new InstantCommand(()-> clawPivot.setPosition(0.5))
                         )
                 );
 
-    }
+
 
         // SPECIMEN
 
-        if (SPECIMENMODE){
 
             new GamepadButton(operatorGamepad, GamepadKeys.Button.Y)
                 .whileActiveOnce(
@@ -188,9 +182,9 @@ public class teleop extends CommandOpMode {
                                 new InstantCommand(()-> clawUp.setPosition(outakeClose)),
                                 new WaitCommand(50),
                                 new InstantCommand(()-> arm.setPosition(armScore)),
-                                new WaitCommand(500),
-                                new InstantCommand(()-> diffClawUp.setPositionD(placeDiff-(90*outTakeRotatePerDegree))),
-                                new InstantCommand(()-> diffClawUp.setPositionI(placeDiff+(90*outTakeRotatePerDegree)))
+                                new WaitCommand(800),
+                                new InstantCommand(()-> diffClawUp.setPositionD(placeDiff-(80*outTakeRotatePerDegree))),
+                                new InstantCommand(()-> diffClawUp.setPositionI(placeDiff+(80*outTakeRotatePerDegree)))
                 )
         );
         new GamepadButton(operatorGamepad, GamepadKeys.Button.Y)
@@ -213,7 +207,7 @@ public class teleop extends CommandOpMode {
                         )
                 );
 
-    }
+
 
 
 
@@ -230,63 +224,5 @@ public class teleop extends CommandOpMode {
         CommandScheduler.getInstance().run();
         telem.update();
     }
-    Boolean BPressed = false;
-    Boolean APressed = false;
-    public void periodicBindings(){
 
-        /*
-        if(operatorGamepad.getButton(GamepadKeys.Button.A)){
-            if(!APressed){
-                APressed = true;
-
-            }
-
-
-        }
-        if(!operatorGamepad.getButton(GamepadKeys.Button.A)){
-            APressed = false;
-        }
-
-        if(operatorGamepad.getButton(GamepadKeys.Button.B)){
-            if(!BPressed){
-                BPressed = true;
-
-            }
-
-        }
-        if(!operatorGamepad.getButton(GamepadKeys.Button.B)){
-            BPressed = false;
-        }
-
-         */
-
-
-      /*  if(operatorGamepad.wasJustPressed(GamepadKeys.Button.A)){
-            schedule(
-            new SequentialCommandGroup(
-                    new InstantCommand(()->{
-                        elbow.setPosition(ElbowSubsystem.ElbowSetpoints.grabbing);
-                    }),
-
-                new WaitCommand(1000),
-                    new InstantCommand(()->{
-                        arm.setPosition(ArmPIDSubsystem.ArmSetpoints.grabbing);
-                    })
-            )
-            );
-        }
-
-        if(operatorGamepad.wasJustPressed(GamepadKeys.Button.Y)){
-           schedule(
-            new SequentialCommandGroup(
-                    new InstantCommand(()->{
-                        arm.setPosition(ArmPIDSubsystem.ArmSetpoints.grabbing);
-                    }),
-                    new WaitCommand(1000),
-                    new InstantCommand(()->{
-                        elbow.setPosition(ElbowSubsystem.ElbowSetpoints.placing);
-                    })
-            ));
-        }*/
-    }
 }

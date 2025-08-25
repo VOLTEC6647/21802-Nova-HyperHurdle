@@ -47,7 +47,7 @@ public class MecanumDrive extends SubsystemBase {
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
         if (pose == null) {
-            pose = new Pose();
+            pose = new Pose(0,0,0);
         }
 
         odo.setPosition(pose);
