@@ -38,9 +38,7 @@ public class Elevator implements AnyArm {
 
     @Config
     public static class ArmSetpoints{
-        public static int grabbing = 1;
-        public static int placing = 149;
-        public static int grabbingBlock = 0;
+        public static int climb = 1;
         public static int save = 0;
     }
 
@@ -82,23 +80,17 @@ public class Elevator implements AnyArm {
 
 
         if(bot.opertator.getButton(GamepadKeys.Button.A)){
-            setPoint = ArmSetpoints.grabbing;
+            setPoint = ArmSetpoints.save;
         }
         if(bot.opertator.getButton(GamepadKeys.Button.Y)){
-            setPoint = ArmSetpoints.placing;
+            setPoint = ArmSetpoints.climb;
             jitTicks = 0;
-        }
-        if(bot.opertator.getButton(GamepadKeys.Button.X)){
-            setPoint = ArmSetpoints.grabbingBlock;
-        }
-        if(bot.opertator.getButton(GamepadKeys.Button.B)){
-            setPoint = ArmSetpoints.save;
         }
 
         pid.setP(ArmpidConstants.kp);
         pid.setI(ArmpidConstants.ki);
 
-        if(setPoint == ArmSetpoints.placing || setPoint == ArmSetpoints.grabbing){
+        if(setPoint == ArmSetpoints.climb || setPoint == ArmSetpoints.save){
             pid.setF(ArmpidConstants.kf);
         }
         double manualAdjustmentIncrement = 3.0;
@@ -129,15 +121,15 @@ public class Elevator implements AnyArm {
         double pidOutput = pid.calculate(motorRotate.getCurrentPosition(), currentSetpoint);
 
         if(jitTicks > 0){
-            pidOutput += 0.64;
+            pidOutput += 0.84;
         }
 
         if (pidOutput > 1){
-            pidOutput = 0.64;
+            pidOutput = 0.84;
         }
 
         if (pidOutput < -1){
-            pidOutput = -0.64;
+            pidOutput = -0.84;
         }
 
         motorRotate.setPower(pidOutput);

@@ -180,19 +180,22 @@ public class teleop extends CommandOpMode {
                 .whileActiveOnce(
                         new SequentialCommandGroup(
                                 new InstantCommand(()-> clawUp.setPosition(outakeClose)),
-                                new WaitCommand(50),
+                                new WaitCommand(500),
                                 new InstantCommand(()-> arm.setPosition(armScore)),
-                                new WaitCommand(800),
-                                new InstantCommand(()-> diffClawUp.setPositionD(placeDiff-(80*outTakeRotatePerDegree))),
-                                new InstantCommand(()-> diffClawUp.setPositionI(placeDiff+(80*outTakeRotatePerDegree)))
+                                new WaitCommand(600),
+                                new InstantCommand(()-> diffClawUp.setPositionD(placeDiff-(65*outTakeRotatePerDegree))),
+                                new InstantCommand(()-> diffClawUp.setPositionI(placeDiff+(65*outTakeRotatePerDegree)))
                 )
         );
         new GamepadButton(operatorGamepad, GamepadKeys.Button.Y)
                 .whenReleased(
                         new SequentialCommandGroup(
                                 new InstantCommand(()-> arm.setPosition(armAfterScore)),
+                                new InstantCommand(()-> diffClawUp.setPositionD(afterScore-(65*outTakeRotatePerDegree))),
+                                new InstantCommand(()-> diffClawUp.setPositionI(afterScore+(65*outTakeRotatePerDegree))),
                                 new WaitCommand(500),
                                 new InstantCommand(()-> clawUp.setPosition(outakeOpen))
+
                         )
                 );
 
