@@ -25,8 +25,8 @@ public class DiffClawUp implements Subsystem {
         sI.setDirection(Servo.Direction.REVERSE);
         sD.setDirection(Servo.Direction.FORWARD);
 
-        sI.setPosition(0);
-        sD.setPosition(0);
+       // sI.setPosition(0);
+       // sD.setPosition(0);
 
 
 

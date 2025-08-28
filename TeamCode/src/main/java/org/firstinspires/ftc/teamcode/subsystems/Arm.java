@@ -17,7 +17,7 @@ public class Arm implements Subsystem {
         arm = bot.hMap.get(Servo.class,"arm");
         arm.setDirection(Servo.Direction.FORWARD);
 
-        arm.setPosition(0.13);
+        //arm.setPosition(0.13);
 
 
     }

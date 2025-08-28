@@ -8,15 +8,15 @@ public class RobotConstants {
 
     //OutTake Diff
     public static double outTakeRotatePerDegree = 0.0037037037037037037037037037037;
-    public static double placeDiff = 0.47;
-    public static double afterScore = 0.35;
+    public static double placeDiff = 0.5;
+    public static double afterScore = 0.2;
 
     public static double grabWall = 0.28;
     public static double savedForPickUp = 0.9;
 
     //Intake Diff
-    public static double savedForSpecimen = 0.56;
-    public static double grab = 0.5;
+    public static double savedForSpecimen = 0.58;
+    public static double grab = 0.51;
 
 
     //claw Up
@@ -30,10 +30,10 @@ public class RobotConstants {
 
 
     //arm
-    public static double armScore = 0.82;
+    public static double armScore = 0.87;
     public static double armGrabWall = 0.17;
     public static double armSaved = 0.4;
-    public static double armAfterScore = 1;
+    public static double armAfterScore = 0.95;
 
     //slides
     public static double extended = 0.25;

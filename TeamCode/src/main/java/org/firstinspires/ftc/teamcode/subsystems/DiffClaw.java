@@ -25,8 +25,8 @@ public class DiffClaw implements Subsystem {
         sI.setDirection(Servo.Direction.REVERSE);
         sD.setDirection(Servo.Direction.FORWARD);
 
-        sI.setPosition(0.56);
-        sD.setPosition(0.56);
+      //  sI.setPosition(0.56);
+       // sD.setPosition(0.56);
 
 
 

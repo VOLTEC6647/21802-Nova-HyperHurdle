@@ -19,6 +19,7 @@ public class Claw implements Subsystem {
         this.bot = bot;
 
         clawServo = bot.hMap.get(Servo.class,"claw");
+        clawServo.setDirection(Servo.Direction.REVERSE);
 
     }
     public void setSetpoint (double setPoint) {
@@ -38,7 +39,7 @@ public class Claw implements Subsystem {
                 clawServo.setPosition(0);
                 garraAbierta = false;
             } else {
-                clawServo.setPosition(1);
+                clawServo.setPosition(0.3);
                 garraAbierta = true;
             }
         }

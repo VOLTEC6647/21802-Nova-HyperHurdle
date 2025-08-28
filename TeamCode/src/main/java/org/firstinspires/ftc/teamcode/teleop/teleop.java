@@ -193,7 +193,7 @@ public class teleop extends CommandOpMode {
                                 new InstantCommand(()-> arm.setPosition(armAfterScore)),
                                 new InstantCommand(()-> diffClawUp.setPositionD(afterScore-(65*outTakeRotatePerDegree))),
                                 new InstantCommand(()-> diffClawUp.setPositionI(afterScore+(65*outTakeRotatePerDegree))),
-                                new WaitCommand(500),
+                                new WaitCommand(800),
                                 new InstantCommand(()-> clawUp.setPosition(outakeOpen))
 
                         )
