@@ -63,8 +63,6 @@ public class SpecimenAuto extends LinearOpMode {
         driverGamepad = new GamepadEx(gamepad1);
         operatorGamepad = new GamepadEx(gamepad2);
 
-        VoltageSensor vs = bot.hMap.voltageSensor.iterator().next();
-
         Follower f = new Follower(hardwareMap, FConstants.class, LConstants.class);
 
         bot = new Bot(telem, hardwareMap, driverGamepad, operatorGamepad);
@@ -157,7 +155,6 @@ public class SpecimenAuto extends LinearOpMode {
         CommandScheduler.getInstance().schedule(auto);
 
         while (opModeIsActive()) {
-            f.setMaxPower(10.0 / vs.getVoltage());
             CommandScheduler.getInstance().run();
             f.update();
             f.telemetryDebug(telem);
