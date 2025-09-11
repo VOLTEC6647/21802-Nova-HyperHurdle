@@ -47,6 +47,8 @@ public class Bot extends Robot {
 
     public void setRotationOffset(Rotation2d rotationOffset) {
         this.rotationOffset = rotationOffset;
+
+
     }
 
     public Rotation2d getYaw(){
