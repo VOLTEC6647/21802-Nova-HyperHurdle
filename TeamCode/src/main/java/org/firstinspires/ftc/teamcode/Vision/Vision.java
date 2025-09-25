@@ -23,11 +23,7 @@ public class Vision extends SubsystemBase {
     @Getter private boolean isDataOld = false;
     @Getter private LLResult result;
 
-    public static double CAMERA_HEIGHT = 10;
-    public static double CAMERA_ANGLE = 45.0;
-    public static double TURN_P = 0.02;
-    public static double strafeConversionFactor = 6.6667;
-    public static double cameraStrafeToBot = -20;
+    public static double TURN_P = 0.2;
 
 
 
@@ -42,26 +38,25 @@ public class Vision extends SubsystemBase {
         String team = ReadWriteFile.readFile(myFileName);
 
         if (team.equals("blue")){
-            camera.pipelineSwitch(2);
+            camera.pipelineSwitch(6);
 
         }
         if (team.equals("red")){
-            camera.pipelineSwitch(1);
+            camera.pipelineSwitch(7);
         }
     }
 
     public void initializeCamera() {
-        camera.setPollRateHz(50);
+        camera.setPollRateHz(100);
         camera.start();
     }
+
     public double getTurnPower() {
         if (!isTargetVisible()) {
             return 0.0;
         }
-
         double tx = getTx(0.0);
 
-        //double turnPower = pid.calculate(tx);
         double turnPower = tx * TURN_P;
 
         return turnPower;
@@ -88,35 +83,11 @@ public class Vision extends SubsystemBase {
         return !MathUtils.isNear(0, result.getTa(), 0.0001);
     }
 
-    public double getDistance() {
-        double ty = getTy(0.0);
-        if (MathUtils.isNear(0, ty, 0.01)) {
-            return 0;
-        }
-        double distance = (CAMERA_HEIGHT * Math.tan(CAMERA_ANGLE + ty));
-        return Math.abs(distance);
-    }
 
-    // Get the strafe
-    public double getStrafeOffset() {
-        double tx = getTx(0);
-        if (tx != 0) {
-            return tx * strafeConversionFactor - cameraStrafeToBot;
-        }
-        return 0;
-    }
-
-
-    public Double getTurnServoDegree() {
-        if (result == null) {
-            return null;
-        }
-        return result.getPythonOutput()[3];
-    }
 
     @Override
     public void periodic() {
-        result = camera.getLatestResult();
+        /*result = camera.getLatestResult();
 
         if (result != null) {
 
@@ -125,6 +96,6 @@ public class Vision extends SubsystemBase {
             bot.telem.addData("Distance", getDistance());
             bot.telem.addData("Angle", getTurnServoDegree());
 
-        }
+        }*/
     }
 }

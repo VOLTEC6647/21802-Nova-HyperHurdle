@@ -11,8 +11,6 @@ public class Claw implements Subsystem {
     private Bot bot;
     public double setPoint = 0;
     boolean garraAbierta = true;
-
-    // Variable para evitar cambios múltiples con una sola pulsación
     boolean botonPresionadoAnteriormente = false;
 
     public Claw(Bot bot) {
@@ -30,7 +28,6 @@ public class Claw implements Subsystem {
 
     @Override
     public void periodic(){
-        //double currentPosition = clawServo.getPosition();
 
         boolean botonPresionadoAhora = bot.opertator.gamepad.a;
 

@@ -28,7 +28,7 @@ public class TeleopDriveCommand extends CommandBase {
     @Override
     public void execute() {
         drivetrain.teleopDrive(
-                -leftStickX.getAsDouble(),
+                leftStickX.getAsDouble(),
                 multiplier.getAsDouble()
         );
     }

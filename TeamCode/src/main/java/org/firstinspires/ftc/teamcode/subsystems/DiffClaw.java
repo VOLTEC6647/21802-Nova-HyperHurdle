@@ -70,8 +70,7 @@ public class DiffClaw implements Subsystem {
 
     }
     public void resultDegrees() {
-        Double sampleDegrees = vision.getTurnServoDegree();
-        if (sampleDegrees == null) return;
+        int sampleDegrees = 1;
 
         double mappedDegrees = sampleDegrees;
         if (mappedDegrees > 180) {
@@ -82,23 +81,6 @@ public class DiffClaw implements Subsystem {
         bot.telem.addData("Result Degrees", resultDegrees);
     }
 
-    public double rotateDegrees() {
-        Double sampleDegrees = vision.getTurnServoDegree();
-        if (sampleDegrees == null){
-            return 0;
-        }
 
-        double mappedDegrees = sampleDegrees;
-        if (mappedDegrees > 180) {
-            mappedDegrees = 360 - mappedDegrees;
-        }
-        mappedDegrees = 180 - mappedDegrees;
-        double resultDegrees = MathUtils.linear(mappedDegrees, 0, 180, 0.2, 1);
-
-        return resultDegrees;
-
-
-
-    }
 
 }

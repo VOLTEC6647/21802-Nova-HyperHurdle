@@ -26,13 +26,6 @@ public class ClawUp implements Subsystem {
     @Override
     public void periodic(){
         //double currentPosition = clawServo.getPosition();
-
-
-
-
-
-
-
     }
     public void setPosition(double setpoint){
         setPoint = setpoint;

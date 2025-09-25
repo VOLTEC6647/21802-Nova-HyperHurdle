@@ -39,7 +39,6 @@ public class VisionTest extends LinearOpMode {
         while (!isStopRequested() && opModeIsActive()) {
             CommandScheduler.getInstance().run();
 
-            telemetry.addData("Distance", vision.getDistance());
             telemetry.addData("TX", vision.getTx(0.0));
             telemetry.addData("TY", vision.getTy(0.0));
             telemetry.addData("Area", vision.isTargetVisible());
